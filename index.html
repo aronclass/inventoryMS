@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <h1 style="color: white;">Stock MS</h1>
+            </div>
+            <div class="nav-links">
+                <a href="#" onclick="showSection('dashboard')">Dashboard</a>
+                <a href="#" onclick="showSection('products')">Products</a>
+                <a href="#" onclick="showSection('sales')">Sales</a>
+                <a href="#" onclick="showSection('inventory')">Inventory</a>
+                <a href="#" onclick="showSection('reports')">Reports</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section">
+            <h2>Dashboard</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Products</h3>
+                    <div class="stat-value" id="totalProducts">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Low Stock Items</h3>
+                    <div class="stat-value" id="lowStock">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Today's Sales</h3>
+                    <div class="stat-value" id="todaySales">$0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Monthly Revenue</h3>
+                    <div class="stat-value" id="monthlyRevenue">$0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Recent Activity</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Activity</th>
+                            <th>User</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activityLog">
+                        <!-- Activity logs will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div id="products" class="section" style="display: none;">
+            <h2>Products Management</h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Add New Product</h3>
+                </div>
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" id="productName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <input type="text" id="category" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price ($)</label>
+                        <input type="number" id="price" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Initial Stock Quantity</label>
+                        <input type="number" id="quantity" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Product</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Product List</h3>
+                    <div class="search-bar">
+                        <input type="text" id="productSearch" class="search-input" placeholder="Search products...">
+                        <button class="btn btn-primary" onclick="searchProducts()">Search</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTable">
+                            <!-- Product data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Section -->
+        <div id="sales" class="section" style="display: none;">
+            <h2>Sales Management</h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>New Sale</h3>
+                </div>
+                <form id="addSaleForm">
+                    <div class="form-group">
+                        <label for="saleProduct">Product</label>
+                        <select id="saleProduct" class="form-control" required>
+                            <option value="">Select a product</option>
+                            <!-- Products will be loaded here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="saleQuantity">Quantity</label>
+                        <input type="number" id="saleQuantity" class="form-control" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="saleDate">Date</label>
+                        <input type="date" id="saleDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer">Customer</label>
+                        <input type="text" id="customer" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Record Sale</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Sales History</h3>
+                    <div class="search-bar">
+                        <input type="text" id="salesSearch" class="search-input" placeholder="Search sales...">
+                        <button class="btn btn-primary" onclick="searchSales()">Search</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sale ID</th>
+                                <th>Date</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Customer</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesTable">
+                            <!-- Sales data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Section -->
+        <div id="inventory" class="section" style="display: none;">
+            <h2>Inventory Management</h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Stock Levels</h3>
+                    <div class="search-bar">
+                        <input type="text" id="inventorySearch" class="search-input" placeholder="Search inventory...">
+                        <button class="btn btn-primary" onclick="searchInventory()">Search</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Current Stock</th>
+                                <th>Minimum Stock</th>
+                                <th>Last Updated</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTable">
+                            <!-- Inventory data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Update Stock Levels</h3>
+                </div>
+                <form id="updateStockForm">
+                    <div class="form-group">
+                        <label for="updateProduct">Product</label>
+                        <select id="updateProduct" class="form-control" required>
+                            <option value="">Select a product</option>
+                            <!-- Products will be loaded here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateQuantity">New Quantity</label>
+                        <input type="number" id="updateQuantity" class="form-control" required min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateReason">Reason for Update</label>
+                        <select id="updateReason" class="form-control" required>
+                            <option value="restock">Restocking</option>
+                            <option value="adjustment">Inventory Adjustment</option>
+                            <option value="damaged">Damaged/Expired</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Stock</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Reports Section -->
+        <div id="reports" class="section" style="display: none;">
+            <h2>Reports</h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Generate Report</h3>
+                </div>
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label for="reportType">Report Type</label>
+                        <select id="reportType" class="form-control" required>
+                            <option value="sales">Sales Report</option>
+                            <option value="inventory">Inventory Report</option>
+                            <option value="low-stock">Low Stock Items</option>
+                            <option value="profit">Profit Analysis</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" id="startDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input type="date" id="endDate" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Recent Reports</h3>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Report Name</th>
+                                <th>Type</th>
+                                <th>Date Range</th>
+                                <th>Generated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTable">
+                            <!-- Reports data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for editing products -->
+    <div id="editModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="card-header">
+                <h3>Edit Product</h3>
+                <button onclick="closeModal('editModal')" style="background: none; border: none; cursor: pointer; font-size: 20px;">&times;</button>
+            </div>
+            <form id="editProductForm">
+                <input type="hidden" id="editProductId">
+                <div class="form-group">
+                    <label for="editProductName">Product Name</label>
+                    <input type="text" id="editProductName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCategory">Category</label>
+                    <input type="text" id="editCategory" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="editPrice">Price ($)</label>
+                    <input type="number" id="editPrice" class="form-control" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="editMinStock">Minimum Stock Level</label>
+                    <input type="number" id="editMinStock" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Product</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="inventory.js"></script>
+</body>
+</html>
